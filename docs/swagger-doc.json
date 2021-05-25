@@ -1,0 +1,755 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Smart-Lizard",
+    "description": "Dokumentacja API"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Devices",
+      "description": "Metody dla urządzeń"
+    },
+    {
+      "name": "Rooms",
+      "description": "Metody dla pomieszczeń"
+    },
+    {
+      "name": "States",
+      "description": "Metody dla stanów"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/devices": {
+      "get": {
+        "tags": ["Devices"],
+        "summary": "Wyświetlenie listy urządzeń",
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "ID urządzenia",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Nazwa urządzenia",
+                  "example": "Lampa sufitowa"
+                },
+                "Rooms_ID": {
+                  "type": "integer",
+                  "description": "ID pomieszczenia",
+                  "example": 1
+                },
+                "States_ID": {
+                  "type": "integer",
+                  "description": "ID stanu",
+                  "example": 1
+                },
+                "PCBs_ID": {
+                  "type": "integer",
+                  "description": "ID płytki",
+                  "example": 1
+                },
+                "Room": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID pomieszczenia",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nazwa pomieszczenia",
+                      "example": "Salon"
+                    }
+                  }
+                },
+
+                "State": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID stanu",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nazwa stanu",
+                      "example": "Włączony"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/{id}": {
+      "get": {
+        "tags": ["Devices"],
+        "summary": "Wyświetlenie pojedyńczego urządzenia",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Transmitters"
+            }
+          }
+        }
+      }
+    },
+    "/devices/create": {
+      "post": {
+        "tags": ["Devices"],
+        "summary": "Tworzenie urządzenia",
+        "description": "Jeśli urządzenie o takiej nazwie nie istnieje w systemie do zostanie dodane. Jeśli taka nazwa jest w bazie to zostaje zwrócone istniejące urządzenie",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Nazwa urządzenia"
+          },
+          {
+            "name": "Rooms_ID",
+            "in": "body",
+            "description": "ID pomieszczenia"
+          },
+          {
+            "name": "States_ID",
+            "in": "body",
+            "description": "ID stanu"
+          },
+          {
+            "name": "PCBs_ID",
+            "in": "body",
+            "description": "ID płytki"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Urządzenie zostało stworzone",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "ID urządzenia",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Nazwa urządzenia",
+                  "example": "ESP8266-01"
+                },
+                "Rooms_ID": {
+                  "type": "integer",
+                  "description": "ID pomieszczenia",
+                  "example": 1
+                },
+                "States_ID": {
+                  "type": "integer",
+                  "description": "ID stanu",
+                  "example": 1
+                },
+                "PCBs_ID": {
+                  "type": "integer",
+                  "description": "ID stanu",
+                  "example": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/edit/{id}": {
+      "put": {
+        "tags": ["Devices"],
+        "summary": "Edycja urządzenia",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Nazwa urządzenia"
+          },
+          {
+            "name": "Rooms_ID",
+            "in": "body",
+            "description": "ID pomieszczenia"
+          },
+          {
+            "name": "States_ID",
+            "in": "body",
+            "description": "ID stanu"
+          },
+          {
+            "name": "PCBs_ID",
+            "in": "body",
+            "description": "ID płytki"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Wiadomość",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Wiadomość",
+                  "example": "Device was updated successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/delete/{id}": {
+      "delete": {
+        "summary": "Usunięcie urządzenia",
+        "tags": ["Devices"],
+        "responses": {
+          "200": {
+            "description": "Urządzenie usunięte",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Wiadomość",
+                  "example": "Device was deleted successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/devices/state/{id}/{state_id}": {
+      "put": {
+        "summary": "Zmiana statusu urządzenia",
+        "tags": ["Devices"],
+        "responses": {
+          "200": {
+            "description": "Zmieniono status urządzenia",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Wiadomość",
+                  "example": "State was updated successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/rooms": {
+      "get": {
+        "tags": ["Rooms"],
+        "summary": "Wyświetlenie listy pomieszczeń",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Lista pomieszczeń",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "ID pomieszczenia",
+                  "example": "1"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Nazwa pomieszczenia",
+                  "example": "Kuchnia"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/rooms/{id}": {
+      "get": {
+        "tags": ["Rooms"],
+        "summary": "Wyświetlenie pojedyńczego pomieszczenia",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Szczegóły",
+            "schema": {
+              "$ref": "#/definitions/Rooms"
+            }
+          }
+        }
+      }
+    },
+
+    "/rooms/create": {
+      "post": {
+        "tags": ["Rooms"],
+        "summary": "Tworzenie urządzenia",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Nazwa pomieszczenia"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Pomieszczenie zostało stworzone",
+            "schema": {
+              "$ref": "#/definitions/Rooms"
+            }
+          }
+        }
+      }
+    },
+
+    "/rooms/edit/{id}": {
+      "put": {
+        "tags": ["Rooms"],
+        "summary": "Edycja pomieszczenia",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Nazwa pomieszczenia"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Wiadomość",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Wiadomość",
+                  "example": "Room was updated successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/rooms/delete/{id}": {
+      "delete": {
+        "summary": "Usunięcie pomieszczenia",
+        "tags": ["Rooms"],
+        "responses": {
+          "200": {
+            "description": "Pomieszczenie usunięte",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Wiadomość",
+                  "example": "Room was deleted successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/states": {
+      "get": {
+        "tags": ["States"],
+        "summary": "Wyświetlenie listy stanów",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Lista stanów",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "ID stanu -> 1 - Włączony, 2 - Wyłączony",
+                  "example": "1"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Nazwa stanu",
+                  "example": "Włączony"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/states/{id}": {
+      "get": {
+        "tags": ["States"],
+        "summary": "Wyświetlenie pojedyńczego stanu",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Szczegóły",
+            "schema": {
+              "$ref": "#/definitions/States"
+            }
+          }
+        }
+      }
+    },
+
+    "/states/create": {
+      "post": {
+        "tags": ["States"],
+        "summary": "Tworzenie stanu",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Nazwa stanu"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Stan został stworzony",
+            "schema": {
+              "$ref": "#/definitions/States"
+            }
+          }
+        }
+      }
+    },
+
+    "/states/edit/{id}": {
+      "put": {
+        "tags": ["States"],
+        "summary": "Edycja stanu",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "body",
+            "description": "Nazwa stanu"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Wiadomość",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Wiadomość",
+                  "example": "State was updated successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/states/delete/{id}": {
+      "delete": {
+        "summary": "Usunięcie stanu",
+        "tags": ["States"],
+        "responses": {
+          "200": {
+            "description": "Stan usunięte",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Wiadomość",
+                  "example": "State was deleted successfully!"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "Transmitters": {
+      "required": ["name", "PCBs_ID", "Rooms_ID", "States_ID"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true,
+          "description": "ID urządzenia",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "Nazwa urządzenia",
+          "example": "Lampa sufitowa"
+        },
+        "Rooms_ID": {
+          "type": "integer",
+          "description": "ID pomieszczenia",
+          "example": 1
+        },
+        "States_ID": {
+          "type": "integer",
+          "description": "ID stanu",
+          "example": 1
+        },
+        "PCBs_ID": {
+          "type": "integer",
+          "description": "ID Płytki",
+          "example": 1
+        },
+        "Room": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "ID pomieszczenia",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "description": "Nazwa pomieszczenia",
+              "example": "Salon"
+            }
+          }
+        },
+        "State": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "ID stanu",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "description": "Nazwa stanu",
+              "example": "Włączony"
+            }
+          }
+        },
+        "PCB": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "ID Płytki",
+              "example": 1
+            },
+            "name": {
+              "type": "string",
+              "description": "Nazwa płytki",
+              "example": "ESP8266-01"
+            }
+          }
+        }
+      }
+    },
+    "Rooms": {
+      "required": ["name"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true,
+          "description": "ID pomieszczenia",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "Nazwa pomieszczenia",
+          "example": "Salon"
+        },
+        "Transmitters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "ID urządzenia",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "description": "Nazwa urządzenia",
+                "example": "Lampa sufitowa"
+              },
+              "PCBs_ID": {
+                "type": "integer",
+                "description": "ID płytki",
+                "example": 1
+              },
+              "Rooms_ID": {
+                "type": "integer",
+                "description": "ID pomieszczenia",
+                "example": 1
+              },
+              "States_ID": {
+                "type": "integer",
+                "description": "ID stanu",
+                "example": 1
+              },
+              "State": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "ID stanu",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Nazwa stanu",
+                    "example": "Włączony"
+                  }
+                }
+              },
+              "Room": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "ID pomieszczenia",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Nazwa pomieszczenia",
+                    "example": "Salon"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "States": {
+      "required": ["name"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "uniqueItems": true,
+          "description": "ID stanu",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "Nazwa pomieszczenia",
+          "example": "Włączony"
+        },
+        "Transmitters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "ID urządzenia",
+                "example": 1
+              },
+              "name": {
+                "type": "string",
+                "description": "Nazwa urządzenia",
+                "example": "Lampa sufitowa"
+              },
+              "Rooms_ID": {
+                "type": "integer",
+                "description": "ID pomieszczenia",
+                "example": 1
+              },
+              "States_ID": {
+                "type": "integer",
+                "description": "ID stanu",
+                "example": 1
+              },
+              "PCBs_ID": {
+                "type": "integer",
+                "description": "ID płytki",
+                "example": 1
+              },
+              "Room": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "ID pomieszczenia",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Nazwa pomieszczenia",
+                    "example": "Kuchnia"
+                  }
+                }
+              },
+              "State": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "ID stanu",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Nazwa stanu",
+                    "example": "Włączony"
+                  }
+                }
+              },
+              "PCB": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "ID stanu",
+                    "example": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Nazwa stanu",
+                    "example": "ESP8266-01"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

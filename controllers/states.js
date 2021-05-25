@@ -12,19 +12,19 @@ module.exports = function (io, sequelize) {
 
   controllers.findAll = (req, res) => {
     models.States.findAll({
-      include: [
-        {
-          model: models.Devices,
-          include: [
-            {
-              model: models.States,
-            },
-            {
-              model: models.Rooms,
-            },
-          ],
-        },
-      ],
+      // include: [
+      //   {
+      //     model: models.Transmitters,
+      //     include: [
+      //       {
+      //         model: models.States,
+      //       },
+      //       {
+      //         model: models.Rooms,
+      //       },
+      //     ],
+      //   },
+      // ],
       // order: [["id", "DESC"]],
     })
       .then((data) => {
@@ -41,7 +41,7 @@ module.exports = function (io, sequelize) {
     models.States.findByPk(req.params.id, {
       include: [
         {
-          model: models.Devices,
+          model: models.Transmitters,
           include: [
             {
               model: models.States,
@@ -49,12 +49,16 @@ module.exports = function (io, sequelize) {
             {
               model: models.Rooms,
             },
+            {
+              model: models.PCBs,
+            },
           ],
         },
       ],
     })
       .then((data) => {
         res.send(data.get());
+        return data;
       })
       .catch((err) => {
         res.status(500).send({

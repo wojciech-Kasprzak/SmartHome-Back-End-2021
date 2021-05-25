@@ -5,11 +5,11 @@ module.exports = function (app) {
 
   app.get("/states", func.findAll);
 
-  app.get("/state/:id", func.findOne);
+  app.get("/states/:id", func.findOne);
 
-  app.post("/state", func.create);
+  // app.post("/states/create", func.create);
 
-  app.put("/state/:id", func.update);
+  // app.put("/states/edit/:id", func.update);
 
-  app.delete("/state/:id", func.delete);
+  // app.delete("/states/delete/:id", func.delete);
 };

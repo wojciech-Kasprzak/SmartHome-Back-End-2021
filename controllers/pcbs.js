@@ -11,13 +11,18 @@ module.exports = function (io, sequelize) {
   // const _io = io;
 
   controllers.findAll = (req, res) => {
-    models.Devices.findAll({
+    models.PCBs.findAll({
       include: [
         {
-          model: models.Rooms,
-        },
-        {
-          model: models.States,
+          model: models.Transmitters,
+          include: [
+            {
+              model: models.States,
+            },
+            {
+              model: models.Rooms,
+            },
+          ],
         },
       ],
       // order: [["id", "DESC"]],
@@ -27,19 +32,24 @@ module.exports = function (io, sequelize) {
       })
       .catch((err) => {
         res.status(500).send({
-          message: err.message || "Could not download Devices lists.",
+          message: err.message || "Could not download Rooms lists.",
         });
       });
   };
 
   controllers.findOne = (req, res) => {
-    models.Devices.findByPk(req.params.id, {
+    models.PCBs.findByPk(req.params.id, {
       include: [
         {
-          model: models.Rooms,
-        },
-        {
-          model: models.States,
+          model: models.Transmitters,
+          include: [
+            {
+              model: models.States,
+            },
+            {
+              model: models.Rooms,
+            },
+          ],
         },
       ],
     })
@@ -48,50 +58,49 @@ module.exports = function (io, sequelize) {
       })
       .catch((err) => {
         res.status(500).send({
-          message:
-            err.message || "Some error occurred while retrieving Device.",
+          message: err.message || "Some error occurred while retrieving Room.",
         });
       });
   };
 
   controllers.create = (req, res) => {
-    models.Devices.create(req.body)
+    models.PCBs.create(req.body)
       .then(function (data) {
         res.send(data);
       })
       .catch((err) => {
         res.status(500).send({
-          message: err.message || "Could not create Device.",
+          message: err.message || "Could not create Room.",
         });
       });
   };
 
   controllers.update = (req, res) => {
-    models.Devices.update(req.body, {
+    models.PCBs.update(req.body, {
       where: { id: req.params.id },
     })
       .then(function (data) {
-        res.send({ message: "Device was updated successfully!" });
+        res.send({ message: "Room was updated successfully!" });
       })
       .catch(function (err) {
         res.status(500).send({
-          message: err.message || "Could not update Device.",
+          message: err.message || "Could not update Room.",
         });
       });
   };
 
   controllers.delete = (req, res) => {
-    models.Devices.destroy({
+    models.PCBs.destroy({
       where: {
         id: req.params.id,
       },
     })
       .then(() => {
-        res.send({ message: "Device was deleted successfully!" });
+        res.send({ message: "Room was deleted successfully!" });
       })
       .catch((err) => {
         return res.status(500).send({
-          message: "Could not delete Device with id " + req.params.id,
+          message: "Could not delete Room with id " + req.params.id,
         });
       });
   };

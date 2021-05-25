@@ -10,10 +10,10 @@
     }
   },
   "test": {
-    "username": "p565275_test_dev",
+    "username": "p561685_test_dev",
     "password": "p565275_sm",
-    "database": "p565275_test",
-    "host": "wkasprzak.xaa.pl",
+    "database": "p561685_test",
+    "host": "paradiso-dev.xaa.pl",
     "dialect": "mysql",
     "define": {
       "timestamps": false
